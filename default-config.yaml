@@ -1,0 +1,82 @@
+# Common tags applied to all resources
+tags:
+  stack-name: covid19-glue-workflow
+
+awsAccount:
+  awsRegion: us-east-1
+
+iam:
+  glueRoleName: 'Covid19-glue-Role'
+  lambdaRoleName : 'Covid19-lambda-Role'
+  #boundaryPolicyArn: 'arn:aws:iam::<ACCOUNT_ID>:policy/permissions-boundaries-policy'
+
+glueJobConfig:
+  jobTypeSpark : 'glueetl'
+  jobTypePythonShell : 'pythonshell'
+  databaseName: covid19db
+  glueKSMKeyName : 'glue-kms-key'
+  s3BucketNameScript : 'covid19-glue-config'
+  scriptKeyPrefix : 'etl-script'
+
+  # Crawlers Name
+  neherlabCaseCntCrawlerName : 'c_neherlab_case_counts'
+  neherlabCntryCdCrawlerName : 'c_neherlab_country_codes'
+  neherlabICUCapCrawlerName : 'c_neherlab_icu_capacity'
+  neherlabPopulationCrawlerName : 'c_neherlab_population'
+
+  securityConfigurationName : 'covid19-glue-sc'
+
+  # Glue ETL Config
+  neherlabDenormGlueJobName :  'j_neherlab_denorm'
+  neherlabDenormGlueJobCapacity : 10
+  neherlabDenormGlueELTScriptName : 'j_neherlab_denorm_etl.py'
+
+  neherlabCntryCdTableName : 'neherlab_country_codes'
+  neherlabCaseCntTableName : 'neherlab_case_counts'
+  neherlabICUCapTableName : 'neherlab_icu_capacity'
+  neherlabPopulationTableName : 'neherlab_population'
+  neherlabDenormTableName : 'neherlab_denormalized'
+
+  emitStartGlueJobName : 'j_emit_start_event'
+  emitStartGlueJobCapacity : 0.0625
+  emitStartScriptName : 'j_emit_start_event.py'
+
+  emitEndGlueJobName : 'j_emit_ended_event'
+  emitEndGlueJobCapacity : 0.0625
+  emitEndScriptName : 'j_emit_ended_event.py'
+
+  logManagerScriptName : 'j_log_manager.py'
+
+  # Wrokflow Configuration
+  glueWorkflowName : 'Covid_19'
+
+  # Triggers Configuration
+  startJobTriggerName : 't_start'
+  endJobTriggerName : 't_end'
+  neherlabCaseCntCrawlerTriggerName: 't_neherlab_case_counts'
+  neherlabCntryCdCrawlerTriggerName: 't_neherlab_country_codes'
+  neherlabICUCapCrawlerTriggerName: 't_neherlab_icu_capacity'
+  neherlabPopulationCrawlerTriggerName: 't_neherlab_population'
+  neherlabDenormGlueJobTriggerName : 't_neherlab_denorm'
+
+dataSourcePath:
+  # S3 source bucket for Crawlers
+  neherlabSourceS3Bucket : 'covid19-harmonized-dataset'
+  crawlerSourceS3PathNeherlabCaseCnt : 'covid19-harmonized-dataset/covid19tos3/neherlab_case_counts/'
+  crawlerSourceS3PathNeherlabCntryCd : 'covid19-harmonized-dataset/covid19tos3/neherlab_country_codes/'
+  crawlerSourceS3PathNeherlabICUCap : 'covid19-harmonized-dataset/covid19tos3/neherlab_icu_capacity/'
+  crawlerSourceS3PathNeherlabPopulation : 'covid19-harmonized-dataset/covid19tos3/neherlab_population/'
+  
+  # S3 bucket for Glue ETL
+  s3BucketNameNeherlabDenorm : 'neherlab-denormalized-dataset'
+
+  # S3 bucket for Glue Temp
+  s3PathGlueTemp : 'temp-glue/'
+
+codepipeline:
+  applicationName: 'cdk-covid19-glue'
+  pipelineStackName: 'cdk-covid19-glue-stack-pipeline'
+  glueStackName: 'cdk-covid19-glue-stack'
+  repoName: 'cdk-covid19-glue-blog'
+  repoBranch: 'master'
+  pipelineNotification: 'username@mail.com'

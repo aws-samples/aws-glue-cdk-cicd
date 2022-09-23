@@ -1,0 +1,12 @@
+#cdk-nag
+pytest-mock==3.7.0
+pytest-cov==3.0.0
+moto==3.1.4
+pytest==7.1.1
+bandit==1.7.4
+bandit-aws==0.0.20200316120836
+pylint==2.13.4
+tox==3.23.0
+tox-pyenv==1.1.0
+safety==1.10.3
+cfn-lint==0.58.4
