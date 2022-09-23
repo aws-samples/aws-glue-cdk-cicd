@@ -32,16 +32,16 @@ The diagram shows the various components of the solution:
 Please follow the below instructions to deploy the solution in your AWS account: 
 
 
-#### Download the source code [covid19-neherlab-project](https://github.com/awslabs/covid19-neherlab-project.git)
+#### Download the source code [aws-glue-cdk-cicd](https://github.com/aws-samples/aws-glue-cdk-cicd)
 
 ```
-$ git clone https://github.com/aws-samples/covid19-neherlab-project.git
+$ git clone git@github.com:aws-samples/aws-glue-cdk-cicd.git
 ```
 
 #### Create virtualenv:
 
 ```
-$ cd covid19-neherlab-project
+$ cd aws-glue-cdk-cicd
 $ python3 -m venv .venv
 ```
 
