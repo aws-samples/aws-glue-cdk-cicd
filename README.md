@@ -2,7 +2,7 @@
 
 ### About The Project
 
-This repository demonstrates building a Continuous Integration and Continuous Delivery (CICD) pipeline using AWS CodeCommit, AWS CodeBuild and AWS CodePipeline to provision AWS Glue based data pipelines using AWS Cloud Development Kit (CDK). 
+This repository demonstrates building a Continuous Integration and Continuous Delivery (CI/CD) pipeline using AWS CodeCommit, AWS CodeBuild and AWS CodePipeline to provision AWS Glue based data pipelines using AWS Cloud Development Kit (CDK). 
 
 Please refer to the accompanying post [Build, Test, and Deploy AWS Glue workflows using AWS CDK based CI/CD pipelines](https://aws.amazon.com/blogs/big-data/build-test-and-deploy-aws-glue-workflows-using-aws-cdk-based-cicd-pipelines/) for additional information.
 
