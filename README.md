@@ -1,10 +1,10 @@
-# Build, Test, and Deploy AWS Glue workflows using AWS CDK based CI/CD pipelines
+# Build, Test and Deploy ETL solutions using AWS Glue and AWS CDK based CI/CD pipelines
 
 ### About The Project
 
 This repository demonstrates building a Continuous Integration and Continuous Delivery (CI/CD) pipeline using AWS CodeCommit, AWS CodeBuild and AWS CodePipeline to provision AWS Glue based data pipelines using AWS Cloud Development Kit (CDK). 
 
-Please refer to the accompanying post [Build, Test, and Deploy AWS Glue workflows using AWS CDK based CI/CD pipelines](https://aws.amazon.com/blogs/big-data/build-test-and-deploy-aws-glue-workflows-using-aws-cdk-based-cicd-pipelines/) for additional information.
+Please refer to the accompanying post [Build, Test and Deploy ETL solutions using AWS Glue and AWS CDK based CI/CD pipelines](https://aws.amazon.com/blogs/big-data/build-test-and-deploy-etl-solutions-using-aws-glue-and-aws-cdk-based-cicd-pipelines/) for additional information.
 
 ### Solution Overview
 
@@ -96,7 +96,11 @@ The above command will create the below CloudFormation stack:
 $ aws glue start-workflow-run --name Covid_19
  ```
 
-#### Query the tables using AWS Athena:
+#### Query the tables using Amazon Athena:
+
+```sql
+SELECT "country", "location", "date", "cases", "deaths", "ecdc-countries", "acute_care", "acute_care_per_100K", "critical_care", "critical_care_per_100K" FROM "AwsDataCatalog"."covid19db"."neherlab_denormalized" limit 10;
+```
 
 <kbd>![Athena Query Engine](images/athena.png)</kbd>
 
