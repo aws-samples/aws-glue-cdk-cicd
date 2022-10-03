@@ -35,7 +35,7 @@ Please follow the below instructions to deploy the solution in your AWS account:
 #### Download the source code [aws-glue-cdk-cicd](https://github.com/aws-samples/aws-glue-cdk-cicd)
 
 ```
-$ git clone git@github.com:aws-samples/aws-glue-cdk-cicd.git
+$ git clone https://github.com/aws-samples/aws-glue-cdk-cicd.git
 ```
 
 #### Create virtualenv:
