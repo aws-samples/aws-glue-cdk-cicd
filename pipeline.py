@@ -2,8 +2,9 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from typing import Dict
+from constructs import Construct
+from aws_cdk import Stack
 from aws_cdk import (
-    core,
     aws_codecommit as codecommit,
     aws_iam as iam
 )
@@ -16,7 +17,7 @@ from etl.infrastructure import CdkGlueBlogStage
 from helper import create_archive
 
 
-class PipelineCDKStack(core.Stack):
+class PipelineCDKStack(Stack):
 
     def create_pipeline(self, config):
         # Archive need to be created since there's an issue with creating assets for codecommit
@@ -99,7 +100,7 @@ class PipelineCDKStack(core.Stack):
         pipeline.add_stage(CdkGlueBlogStage(self, 'CdkGlueStage', config=config))
         pipeline.node.add_dependency(codecommit_repo)
 
-    def __init__(self, scope: core.Construct, construct_id: str, config: Dict, **kwargs) -> None:
+    def __init__(self, scope: Construct, construct_id: str, config: Dict, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
         self.create_pipeline(
