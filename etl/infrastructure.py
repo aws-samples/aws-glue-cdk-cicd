@@ -4,17 +4,20 @@
 import json
 import datetime
 from typing import Dict
+from constructs import Construct
+from aws_cdk import Stack, Tags, Stage
 from aws_cdk import (
-    core,
+    aws_glue_alpha as glue_alpha,
     aws_glue as glue,
     aws_iam as iam,
     aws_s3 as s3,
+    RemovalPolicy as rp,
     aws_s3_deployment as s3_deployment
 )
 
 
-class CdkGlueBlogStack(core.Stack):
-    def __init__(self, scope: core.Construct, construct_id: str, config: Dict, **kwargs) -> None:
+class CdkGlueBlogStack(Stack):
+    def __init__(self, scope: Construct, construct_id: str, config: Dict, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
         glue_security_configuration = self.create_glue_securityconf(config)
@@ -355,11 +358,11 @@ class CdkGlueBlogStack(core.Stack):
         Create AWS Glue Security Config
         """
         # Security Configuration
-        glue_security_configuration = glue.SecurityConfiguration(
+        glue_security_configuration = glue_alpha.SecurityConfiguration(
             self,
             "MySecurityConfiguration",
             security_configuration_name=config["glueJobConfig"]["securityConfigurationName"],
-            s3_encryption={"mode": glue.S3EncryptionMode.KMS}
+            s3_encryption={"mode": glue_alpha.S3EncryptionMode.KMS}
         )
 
         glue_security_configuration.s3_encryption_key.add_to_resource_policy(
@@ -455,7 +458,7 @@ class CdkGlueBlogStack(core.Stack):
         )
 
         # Adding Name tag to the resource
-        core.Tags.of(roles['glue_role']).add('Name', config["iam"]["glueRoleName"])
+        Tags.of(roles['glue_role']).add('Name', config["iam"]["glueRoleName"])
 
         roles['lambda_role'] = iam.Role(
             self,
@@ -481,7 +484,7 @@ class CdkGlueBlogStack(core.Stack):
             self,
             "source-script-bucket",
             encryption=s3.BucketEncryption.KMS,
-            removal_policy=core.RemovalPolicy.DESTROY,
+            removal_policy=rp.DESTROY,
             auto_delete_objects=True,
             block_public_access=s3.BlockPublicAccess.BLOCK_ALL,
             encryption_key=glue_security_configuration.s3_encryption_key,
@@ -493,7 +496,7 @@ class CdkGlueBlogStack(core.Stack):
             self,
             "output-data-bucket",
             encryption=s3.BucketEncryption.KMS,
-            removal_policy=core.RemovalPolicy.DESTROY,
+            removal_policy=rp.DESTROY,
             auto_delete_objects=True,
             block_public_access=s3.BlockPublicAccess.BLOCK_ALL,
             encryption_key=glue_security_configuration.s3_encryption_key,
@@ -515,7 +518,7 @@ class CdkGlueBlogStack(core.Stack):
         """
         Creates AWS Glue Database
         """
-        raw_database = glue.Database(
+        raw_database = glue_alpha.Database(
             self,
             config["glueJobConfig"]["databaseName"],
             database_name=config["glueJobConfig"]["databaseName"],
@@ -548,7 +551,7 @@ class CdkGlueBlogStack(core.Stack):
             configuration=json.dumps(raw_crawler_configuration)
         )
         # Adding Name tag to the resource
-        core.Tags.of(crawler_obj).add('Name', crawler_name)
+        Tags.of(crawler_obj).add('Name', crawler_name)
 
         return crawler_obj
 
@@ -601,8 +604,8 @@ class CdkGlueBlogStack(core.Stack):
         return glue_job
 
 
-class CdkGlueBlogStage(core.Stage):
-    def __init__(self, scope: core.Construct, construct_id: str, *, config: Dict, env=None, outdir=None):
+class CdkGlueBlogStage(Stage):
+    def __init__(self, scope: Construct, construct_id: str, *, config: Dict, env=None, outdir=None):
         super().__init__(scope, construct_id, env=env, outdir=outdir)
 
         CdkGlueBlogStack(

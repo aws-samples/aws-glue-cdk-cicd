@@ -4,10 +4,13 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import yaml
-from aws_cdk import core
+
+from constructs import Construct
+from aws_cdk import App, Stack, Environment                   # core constructs
+
 from pipeline import PipelineCDKStack
 
-app = core.App()
+app = App()
 
 # Get target stage from cdk context
 config_file = app.node.try_get_context('config')
@@ -21,7 +24,8 @@ else:
 with open(configFilePath, 'r', encoding="utf-8") as f:
     config = yaml.load(f, Loader=yaml.SafeLoader)
 
-env = core.Environment(region=config["awsAccount"]["awsRegion"])
+
+env = Environment(region=config["awsAccount"]["awsRegion"])
 
 # Initiating the CodePipeline stack
 PipelineCDKStack(
